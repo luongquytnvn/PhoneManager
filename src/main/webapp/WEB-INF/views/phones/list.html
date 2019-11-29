@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone list</title>
+    <style>
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            font-size: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 12px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <a href="/">Back to home page</a>
+</p>
+<h1>Phone list</h1>
+<p>
+    <a href="/phone-create">Create new phone</a>
+</p>
+<p>
+    <a>Sort by: </a>
+    <a th:href="@{/phone-list-price}">Price</a>
+    <a th:href="@{/phone-list-date}">Date</a>
+</p>
+<div class="dropdown">
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
+        <th:block th:each="category : ${categories}">
+            <a th:href="@{/phone-by-category/__${category.id}__}"><div th:text="${category.name}"></div></a>
+        </th:block>
+    </div>
+</div>
+<br/>
+<table border="1" style="border-collapse: collapse">
+    <tr>
+        <th>Name</th>
+        <th>Date Of Purchase</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="phone : ${phones}">
+        <tr>
+            <td th:text="${phone.name}"></td>
+            <td th:text="${phone.dateOfPurchase}"></td>
+            <td th:text="${phone.price}"></td>
+            <td th:text="${phone.description}"></td>
+            <td th:text="${phone.category.name}"></td>
+            <td><a th:href="@{/phone-edit/__${phone.id}__}">Edit</a></td>
+            <td><a th:href="@{/phone-delete/__${phone.id}__}">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/phone-list'(page=${phones.number - 1})}" th:if="${phones.hasPrevious()}">Previous</a>
+    <span th:text="${phones.number + 1}"></span>/<span th:text="${phones.totalPages}"></span>
+    <a th:href="@{'/phone-list'(page=${phones.number + 1})}" th:if="${phones.hasNext()}">Next</a>
+</div>
+</body>
+</html>
