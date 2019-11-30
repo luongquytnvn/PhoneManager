@@ -59,7 +59,7 @@
     <a th:href="@{/phone-list-date}">Date</a>
 </p>
 <div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
+    <button class="dropbtn">Category filter</button>
     <div class="dropdown-content">
         <th:block th:each="category : ${categories}">
             <a th:href="@{/phone-by-category/__${category.id}__}"><div th:text="${category.name}"></div></a>
